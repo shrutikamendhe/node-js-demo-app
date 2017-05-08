@@ -1,0 +1,14 @@
+﻿{
+  "dayplanner": {
+    "dbConfig": {
+      "username": "postgres@postgres-dayplanner",
+      "password": "pg@12345",
+      "host": "postgres-dayplanner.database.windows.net",
+      "port": 5432,
+      "dbName": "dayplanner"
+    },
+    "gmapConfig": {
+      "apikey": "AIzaSyDPBj4ylbh-9S0934uz395F1OS_4sXREvo"
+    }
+  }
+}

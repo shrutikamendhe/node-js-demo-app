@@ -1,0 +1,61 @@
+﻿doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    // The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags
+    title Day View - Day Planner App
+    // Bootstrap
+    link(href='stylesheets/bootstrap.min.css', rel='stylesheet')
+    // Date Picker
+    link(href='stylesheets/datepicker.css', rel='stylesheet')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
+    link(href='stylesheets/custom.css', rel='stylesheet')
+    // HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries
+    // WARNING: Respond.js doesn't work if you view the page via file://
+    //
+      if lt IE 9
+      script(src='https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js')
+      script(src='https://oss.maxcdn.com/respond/1.4.2/respond.min.js')
+  body
+    nav.navbar.navbar-inverse.navbar-fixed-top
+      .container-fluid
+        .navbar-header
+          a.navbar-brand(href='#') Day Planner App
+    // Main jumbotron for a primary marketing message or call to action
+    .jumbotron
+      .container-fluid
+        .col-lg-4
+          br
+          h3 Day View
+          br
+          .date-picker(data-date='04/26/2017', data-keyboard='true')
+            .date-container.pull-left
+              h4.weekday Wednesday
+              h2.date April 26th
+              h4.year.pull-right 2017
+            span.fa.fa-angle-left(data-toggle='datepicker', data-type='subtract')
+            span.fa.fa-angle-right(data-toggle='datepicker', data-type='add')
+            .input-group.input-datepicker
+              input.form-control(type='text', data-format='MM/DD/YYYY', placeholder='MM/DD/YYYY', id='date-input')
+              span.input-group-btn
+                button.btn.btn-default(type='button') Go!
+            span.fa.fa-calendar(data-toggle='calendar')
+    .container.container-map
+      .row
+        .col-lg-12
+    #map(style='position:fixed !important;')    
+    // jQuery (necessary for Bootstrap's JavaScript plugins)
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js')
+    // <script src="https://maps.googleapis.com/maps/api/js?sensor=false" type="text/javascript"></script>
+    // Include all compiled plugins (below), or include individual files as needed
+    script(src='javascripts/bootstrap.min.js')
+    script(src='http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js')
+    script(src='javascripts/datepicker.js')
+    
+    
+    script( defer='', src='https://maps.googleapis.com/maps/api/js?key=AIzaSyDPBj4ylbh-9S0934uz395F1OS_4sXREvo&libraries=places')
+    script(src='javascripts/global.js')
+    script(src='javascripts/main.js')
+    

@@ -1,0 +1,4 @@
+E:\projects\microsoft\tfs\postgres\nodejs\bin\Microsoft.NodejsTools.WebRole.dll
+E:\projects\microsoft\postgre-on-sql\git-repo\node-js-demo-app\obj\Debug\node-js-demo-app.njsprojResolveAssemblyReference.cache
+E:\projects\microsoft\postgre-on-sql\git-repo\node-js-demo-app\bin\Microsoft.NodejsTools.WebRole.dll
+E:\projects\microsoft\postgre-on-sql\git-repo\node-js-demo-app\src\node-js-demo-app\bin\Microsoft.NodejsTools.WebRole.dll

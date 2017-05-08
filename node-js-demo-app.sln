@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "node-js-demo-app", "src\node-js-demo-app\node-js-demo-app.njsproj", "{0E9F85ED-EC75-4608-B293-B7AA8BCFAC9D}"
+EndProject
+Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "arm-templates", "arm-templates\arm-templates\arm-templates.deployproj", "{4A160D9C-7099-44B1-B0F4-75229250731C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0E9F85ED-EC75-4608-B293-B7AA8BCFAC9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E9F85ED-EC75-4608-B293-B7AA8BCFAC9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E9F85ED-EC75-4608-B293-B7AA8BCFAC9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E9F85ED-EC75-4608-B293-B7AA8BCFAC9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A160D9C-7099-44B1-B0F4-75229250731C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A160D9C-7099-44B1-B0F4-75229250731C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A160D9C-7099-44B1-B0F4-75229250731C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A160D9C-7099-44B1-B0F4-75229250731C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
