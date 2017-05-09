@@ -4,7 +4,10 @@
   "parameters": {
     "hostingPlanName": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "metadata": {
+        "description": "The name of the App Service plan to use for hosting the web app."
+      }
     },
     "skuName": {
       "type": "string",
@@ -24,7 +27,7 @@
         "P4"
       ],
       "metadata": {
-        "description": "Describes plan's pricing tier and instance size. Check details at https://azure.microsoft.com/en-us/pricing/details/app-service/"
+        "description": "The pricing tier for the hosting plan. Check details at https://azure.microsoft.com/en-us/pricing/details/app-service/"
       }
     },
     "skuCapacity": {
@@ -37,20 +40,38 @@
     },
     "repoUrl": {
       "type": "string",
-      "defaultValue": "https://github.com/shrutikamendhe/mysupernodesite.git"
+      "defaultValue": "https://github.com/shrutikamendhe/mysupernodesite.git",
+      "metadata": {
+        "description": "The URL for the GitHub repository that contains the project to deploy."
+      }
     },
     "branch": {
       "type": "string",
-      "defaultValue": "master"
+      "defaultValue": "master",
+      "metadata": {
+        "description": "The branch of the GitHub repository to use."
+      }
     },
     "administratorLogin": {
-      "type": "string"
+      "type": "string",
+      "defaultValue": "admin",
+      "metadata": {
+        "description": "The PostgreSQL database administrator username to use."
+      }
     },
     "administratorLoginPassword": {
-      "type": "securestring"
+      "type": "securestring",
+      "defaultValue": "Admin#123",
+      "metadata": {
+        "description": "The PostgreSQL database administrator password to use."
+      }
     },
     "databaseName": {
-      "type": "string"
+      "type": "string",
+      "defaultValue": "calendarapp",
+      "metadata": {
+        "description": "The PostgreSQL database name to use."
+      }
     },
     "collation": {
       "type": "string",
@@ -155,17 +176,6 @@
     },
     {
       "apiVersion": "2015-08-01",
-      "name": "GitHub",
-      "type": "Microsoft.Web/sourcecontrols",
-      "properties": {
-        "name": "GitHub",
-        "token": "2e5820d267bd95cc2142a9dd269eaacc09f8f4a5",
-        "tokenSecret": null,
-        "refreshToken": null
-      }
-    },
-    {
-      "apiVersion": "2015-08-01",
       "name": "[variables('webSiteName')]",
       "type": "Microsoft.Web/sites",
       "location": "[resourceGroup().location]",
@@ -197,14 +207,15 @@
         },
         {
           "apiVersion": "2015-08-01",
-          "type": "sourcecontrols",
           "name": "web",
+          "type": "sourcecontrols",
           "dependsOn": [
             "[resourceId('Microsoft.Web/Sites/', variables('webSiteName'))]"
           ],
           "properties": {
             "RepoUrl": "[parameters('repoUrl')]",
-            "branch": "[parameters('branch')]"
+            "branch": "[parameters('branch')]",
+            "IsManualIntegration": true
           }
         }
       ]
