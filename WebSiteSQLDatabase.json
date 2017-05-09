@@ -3,7 +3,8 @@
   "contentVersion": "1.0.0.0",
   "variables": {
     "webSiteName": "[concat('nodejs', uniqueString(resourceGroup().id))]",
-    "serverName": "[concat('postgresql', uniqueString(resourceGroup().id))]"
+    "serverName": "[concat('postgresql', uniqueString(resourceGroup().id))]",
+    "databaseName": "dayplanner"
   },
   "parameters": {
     "hostingPlanName": {
@@ -75,13 +76,7 @@
         "description": "The PostgreSQL version to use."
       }
     },
-    "databaseName": {
-      "type": "string",
-      "defaultValue": "dayplanner",
-      "metadata": {
-        "description": "The PostgreSQL database name to use."
-      }
-    },
+   
     "location": {
       "type": "string",
       "defaultValue": "westus",
@@ -152,7 +147,7 @@
       "resources": [
         {
           "apiVersion": "2017-04-30-preview",
-          "name": "[parameters('databaseName')]",
+          "name": "[variables('databaseName')]",
           "type": "databases",
           "location": "[parameters('location')]",
           "tags": {
@@ -212,20 +207,20 @@
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('hostingPlanName'))]"
       },
       "resources": [
-        //{
-        //  "apiVersion": "2015-08-01",
-        //  "type": "config",
-        //  "name": "connectionstrings",
-        //  "dependsOn": [
-        //    "[resourceId('Microsoft.Web/Sites/', variables('webSiteName'))]"
-        //  ]
-        //  "properties": {
-        //    "DefaultConnection": {
-        //      "value": "[concat('Data Source=tcp:', reference(resourceId('Microsoft.Sql/servers/', variables('serverName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', parameters('databaseName'), ';User Id=', parameters('administratorLogin'), '@', variables('serverName'), ';Password=', parameters('administratorLoginPassword'), ';')]",
-        //      "type": "PostgreSQLServer"
-        //    }
-        //  }
-        //},
+        {
+          "apiVersion": "2015-08-01",
+          "type": "config",
+          "name": "connectionstrings",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/Sites/', variables('webSiteName'))]",
+            "[resourceId('Microsoft.DBforPostgreSQL/servers/', variables('serverName'))]"
+          ]
+          "properties": {
+            "DefaultConnection": {
+              "value": "[concat('Data Source=tcp:', reference(resourceId('Microsoft.DBforPostgreSQL/servers/', variables('serverName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', variables('databaseName'), ';User Id=', parameters('administratorLogin'), '@', variables('serverName'), ';Password=', parameters('administratorLoginPassword'), ';')]"
+            }
+          }
+        },
         {
           "apiVersion": "2015-08-01",
           "name": "web",
