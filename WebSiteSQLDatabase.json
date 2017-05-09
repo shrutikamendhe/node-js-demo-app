@@ -214,7 +214,7 @@
           "dependsOn": [
             "[resourceId('Microsoft.Web/Sites/', variables('webSiteName'))]",
             "[resourceId('Microsoft.DBforPostgreSQL/servers/', variables('serverName'))]"
-          ]
+          ],
           "properties": {
             "DefaultConnection": {
               "value": "[concat('Data Source=tcp:', reference(resourceId('Microsoft.DBforPostgreSQL/servers/', variables('serverName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', variables('databaseName'), ';User Id=', parameters('administratorLogin'), '@', variables('serverName'), ';Password=', parameters('administratorLoginPassword'), ';')]"
