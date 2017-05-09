@@ -35,6 +35,14 @@
         "description": "Describes plan's instance count"
       }
     },
+    "repoUrl": {
+      "type": "string",
+      "defaultValue": "https://github.com/shrutikamendhe/mysupernodesite.git"
+    },
+    "branch": {
+      "type": "string",
+      "defaultValue": "master"
+    },
     "administratorLogin": {
       "type": "string"
     },
