@@ -183,6 +183,18 @@
               "type": "SQLServer"
             }
           }
+        },
+        {
+          "apiVersion": "2015-08-01",
+          "type": "sourcecontrols",
+          "name": "web",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/Sites/', variables('webSiteName'))]"
+          ],
+          "properties": {
+            "RepoUrl": "[parameters('repoUrl')]",
+            "branch": "[parameters('branch')]"
+          }
         }
       ]
     },
