@@ -217,8 +217,8 @@
           ],
           "properties": {
             "DefaultConnection": {
-              "value": "[concat('postgres://')]",
-              "type":  "Custom"
+              "value": "[concat('postgres://', parameters('administratorLogin'), '@',  variables('serverName'), ':', parameters('administratorLoginPassword'), '@', reference(resourceId('Microsoft.DBforPostgreSQL/servers/', variables('serverName'))).fullyQualifiedDomainName, ':5432/', variables('databaseName'))]",
+              "type": "PostgreSQL"
             }
           }
         },
