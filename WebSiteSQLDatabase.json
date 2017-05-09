@@ -197,7 +197,7 @@
         },
         {
           "apiVersion": "2015-08-01",
-          "type": "Microsoft.Web/sourcecontrols",
+          "type": "sourcecontrols",
           "name": "web",
           "dependsOn": [
             "[resourceId('Microsoft.Web/Sites/', variables('webSiteName'))]"
@@ -205,7 +205,7 @@
           "properties": {
             "RepoUrl": "[parameters('repoUrl')]",
             "branch": "[parameters('branch')]",
-            "token": "2e5820d267bd95cc2142a9dd269eaacc09f8f4a5"
+            //"token": "2e5820d267bd95cc2142a9dd269eaacc09f8f4a5"
           }
         }
       ]
