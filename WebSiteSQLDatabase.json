@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "variables": {
     "webSiteName": "[concat('nodejs', uniqueString(resourceGroup().id))]",
-    "sqlserverName": "[concat('postgresql', uniqueString(resourceGroup().id))]"
+    "serverName": "[concat('postgresql', uniqueString(resourceGroup().id))]"
   },
   "parameters": {
     "hostingPlanName": {
@@ -44,7 +44,7 @@
     },
     "repoUrl": {
       "type": "string",
-      "defaultValue": "https://github.com/shrutikamendhe/node-js-demo-app.git",
+      "defaultValue": "https://github.com/shrutikamendhe/mysupernodesite.git",
       "metadata": {
         "description": "The URL for the GitHub repository that contains the project to deploy."
       }
@@ -58,101 +58,122 @@
     },
     "administratorLogin": {
       "type": "string",
-      "defaultValue": "admin",
       "metadata": {
         "description": "The PostgreSQL database administrator username to use."
       }
     },
     "administratorLoginPassword": {
       "type": "securestring",
-      "defaultValue": "Admin#123",
       "metadata": {
         "description": "The PostgreSQL database administrator password to use."
       }
     },
+    "version": {
+      "type": "string",
+      "defaultValue": "9.5",
+      "metadata": {
+        "description": "The PostgreSQL version to use."
+      }
+    },
     "databaseName": {
       "type": "string",
-      "defaultValue": "calendarapp",
+      "defaultValue": "dayplanner",
       "metadata": {
         "description": "The PostgreSQL database name to use."
       }
     },
-    "collation": {
+    "location": {
       "type": "string",
-      "defaultValue": "SQL_Latin1_General_CP1_CI_AS"
-    },
-    "edition": {
-      "type": "string",
-      "defaultValue": "Basic",
+      "defaultValue": "westus",
       "allowedValues": [
-        "Basic",
-        "Standard",
-        "Premium"
-      ]
-    },
-    "maxSizeBytes": {
-      "type": "string",
-      "defaultValue": "1073741824"
-    },
-    "requestedServiceObjectiveName": {
-      "type": "string",
-      "defaultValue": "Basic",
-      "allowedValues": [
-        "Basic",
-        "S0",
-        "S1",
-        "S2",
-        "P1",
-        "P2",
-        "P3"
+        "northeurope",
+        "westus",
+        "westeurope"
       ],
       "metadata": {
-        "description": "Describes the performance level for Edition"
+        "description": "The PostgreSQL database location to use."
+      }
+    },
+    "skuCapacityDTUPG": {
+      "type": "int",
+      "defaultValue": 100,
+      "metadata": {
+        "description": "The PostgreSQL database Capacity to use."
+      }
+    },
+    "skuFamilyPG": {
+      "type": "string",
+      "defaultValue": "SkuFamily",
+      "metadata": {
+        "description": "The PostgreSQL database Family to use."
+      }
+    },
+    "skuNamePG": {
+      "type": "string",
+      "defaultValue": "PGSQLS3M100",
+      "metadata": {
+        "description": "The PostgreSQL database name to use."
+      }
+    },
+    "skuSizeMBPG": {
+      "type": "int",
+      "defaultValue": 51200,
+      "metadata": {
+        "description": "The PostgreSQL database storage size to use."
+      }
+    },
+    "skuTierPG": {
+      "type": "string",
+      "defaultValue": "Basic",
+      "metadata": {
+        "description": "The PostgreSQL database Pricing tier to use."
       }
     }
   },
   "resources": [
     {
-      "name": "[variables('sqlserverName')]",
-      "type": "Microsoft.Sql/servers",
-      "location": "[resourceGroup().location]",
-      "tags": {
-        "displayName": "SqlServer"
+      "apiVersion": "2016-02-01-privatepreview",
+      "name": "[variables('serverName')]",
+      "type": "Microsoft.DBforPostgreSQL/servers",
+      "sku": {
+        "name": "[parameters('skuNamePG')]",
+        "tier": "[parameters('skuTierPG')]",
+        "capacity": "[parameters('skuCapacityDTUPG')]",
+        "size": "[parameters('skuSizeMBPG')]",
+        "family": "[parameters('skuFamilyPG')]"
       },
-      "apiVersion": "2014-04-01-preview",
+      "location": "[parameters('location')]",
       "properties": {
+        "version": "[parameters('version')]",
         "administratorLogin": "[parameters('administratorLogin')]",
-        "administratorLoginPassword": "[parameters('administratorLoginPassword')]"
+        "administratorLoginPassword": "[parameters('administratorLoginPassword')]",
+        "storageMB": "[parameters('skuSizeMBPG')]"
       },
       "resources": [
         {
+          "apiVersion": "2017-04-30-preview",
           "name": "[parameters('databaseName')]",
           "type": "databases",
-          "location": "[resourceGroup().location]",
+          "location": "[parameters('location')]",
           "tags": {
-            "displayName": "Database"
+            "displayName": "PSQLDatabase"
           },
-          "apiVersion": "2014-04-01-preview",
           "dependsOn": [
-            "[resourceId('Microsoft.Sql/servers/', variables('sqlserverName'))]"
+            "[resourceId('Microsoft.DBforPostgreSQL/servers', variables('serverName'))]"
           ],
           "properties": {
-            "edition": "[parameters('edition')]",
-            "collation": "[parameters('collation')]",
-            "maxSizeBytes": "[parameters('maxSizeBytes')]",
-            "requestedServiceObjectiveName": "[parameters('requestedServiceObjectiveName')]"
           }
         },
         {
+          "apiVersion": "2017-04-30-preview",
+          "name": "PSQLServerFirewallRule",
           "type": "firewallrules",
-          "apiVersion": "2014-04-01-preview",
+          "location": "[parameters('location')]",
           "dependsOn": [
-            "[resourceId('Microsoft.Sql/servers/', variables('sqlserverName'))]"
+            "[resourceId('Microsoft.DBforPostgreSQL/servers', variables('serverName'))]"
           ],
-          "location": "[resourceGroup().location]",
-          "name": "AllowAllWindowsAzureIps",
           "properties": {
-            "endIpAddress": "0.0.0.0",
+            "endIpAddress": "255.255.255.255",
             "startIpAddress": "0.0.0.0"
           }
         }
@@ -200,8 +221,8 @@
           ],
           "properties": {
             "DefaultConnection": {
-              "value": "[concat('Data Source=tcp:', reference(resourceId('Microsoft.Sql/servers/', variables('sqlserverName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', parameters('databaseName'), ';User Id=', parameters('administratorLogin'), '@', variables('sqlserverName'), ';Password=', parameters('administratorLoginPassword'), ';')]",
-              "type": "SQLServer"
+              "value": "[concat('Data Source=tcp:', reference(resourceId('Microsoft.Sql/servers/', variables('serverName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', parameters('databaseName'), ';User Id=', parameters('administratorLogin'), '@', variables('serverName'), ';Password=', parameters('administratorLoginPassword'), ';')]",
+              "type": "PostgreSQLServer"
             }
           }
         },
