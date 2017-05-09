@@ -76,7 +76,7 @@
         "description": "The PostgreSQL version to use."
       }
     },
-   
+
     "location": {
       "type": "string",
       "defaultValue": "westus",
@@ -217,7 +217,8 @@
           ],
           "properties": {
             "DefaultConnection": {
-              "value": "[concat('Data Source=tcp:', reference(resourceId('Microsoft.DBforPostgreSQL/servers/', variables('serverName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', variables('databaseName'), ';User Id=', parameters('administratorLogin'), '@', variables('serverName'), ';Password=', parameters('administratorLoginPassword'), ';')]"
+              "value": "[concat('postgres://')]",
+              "type":  "Custom"
             }
           }
         },
@@ -304,4 +305,3 @@
     }
   ]
 }
-
