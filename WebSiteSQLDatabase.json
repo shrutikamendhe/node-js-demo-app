@@ -218,13 +218,13 @@
           "name": "connectionstrings",
           "dependsOn": [
             "[resourceId('Microsoft.Web/Sites/', variables('webSiteName'))]"
-          ],
-          "properties": {
-            "DefaultConnection": {
-              "value": "[concat('Data Source=tcp:', reference(resourceId('Microsoft.Sql/servers/', variables('serverName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', parameters('databaseName'), ';User Id=', parameters('administratorLogin'), '@', variables('serverName'), ';Password=', parameters('administratorLoginPassword'), ';')]",
-              "type": "PostgreSQLServer"
-            }
-          }
+          ]
+          //"properties": {
+          //  "DefaultConnection": {
+          //    "value": "[concat('Data Source=tcp:', reference(resourceId('Microsoft.Sql/servers/', variables('serverName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', parameters('databaseName'), ';User Id=', parameters('administratorLogin'), '@', variables('serverName'), ';Password=', parameters('administratorLoginPassword'), ';')]",
+          //    "type": "PostgreSQLServer"
+          //  }
+          //}
         },
         {
           "apiVersion": "2015-08-01",
