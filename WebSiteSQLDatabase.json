@@ -153,17 +153,17 @@
         "name": "[parameters('hostingPlanName')]"
       }
     },
-    //{
-    //  "apiVersion": "2015-08-01",
-    //  "name": "GitHub",
-    //  "type": "Microsoft.Web/sourcecontrols",
-    //  "properties": {
-    //    "name": "GitHub",
-    //    "token": "2e5820d267bd95cc2142a9dd269eaacc09f8f4a5",
-    //    "tokenSecret": null,
-    //    "refreshToken": null
-    //  }
-    //},
+    {
+      "apiVersion": "2015-08-01",
+      "name": "GitHub",
+      "type": "Microsoft.Web/sourcecontrols",
+      "properties": {
+        "name": "GitHub",
+        "token": "2e5820d267bd95cc2142a9dd269eaacc09f8f4a5",
+        "tokenSecret": null,
+        "refreshToken": null
+      }
+    },
     {
       "apiVersion": "2015-08-01",
       "name": "[variables('webSiteName')]",
@@ -204,8 +204,7 @@
           ],
           "properties": {
             "RepoUrl": "[parameters('repoUrl')]",
-            "branch": "[parameters('branch')]",
-            //"token": "2e5820d267bd95cc2142a9dd269eaacc09f8f4a5"
+            "branch": "[parameters('branch')]"
           }
         }
       ]
