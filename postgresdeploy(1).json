@@ -1,101 +1,101 @@
 {
-    "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-        "administratorLogin": {
-            "type": "string"
-        },
-        "administratorLoginPassword": {
-            "type": "securestring"
-        },
-        "location": {
-            "type": "string",
-            "defaultValue": "westus"
-        },
-        "serverName": {
-            "type": "string"
-        },
-        "skuCapacityDTU": {
-            "type": "int",
-            "defaultValue": 100
-        },
-        "skuFamily": {
-            "type": "string",
-            "defaultValue": "SkuFamily"
-        },
-        "skuName": {
-            "type": "string",
-            "defaultValue": "PGSQLS3M100"
-        },
-        "skuSizeMB": {
-            "type": "int",
-            "defaultValue": 51200
-        },
-        "skuTier": {
-            "type": "string",
-            "defaultValue": "Basic"
-        },
-        "version": {
-            "type": "string",
-            "defaultValue": "9.5"
-        },
-        "psqlDbName": {
-            "type": "string",
-            "defaultValue": "dayplanner"
-        }
-        
-        
+  "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "administratorLogin": {
+      "type": "string"
     },
-    "variables": {},
-    "resources": [
+    "administratorLoginPassword": {
+      "type": "securestring"
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "westus"
+    },
+    "serverName": {
+      "type": "string"
+    },
+    "skuCapacityDTU": {
+      "type": "int",
+      "defaultValue": 100
+    },
+    "skuFamily": {
+      "type": "string",
+      "defaultValue": "SkuFamily"
+    },
+    "skuName": {
+      "type": "string",
+      "defaultValue": "PGSQLS3M100"
+    },
+    "skuSizeMB": {
+      "type": "int",
+      "defaultValue": 51200
+    },
+    "skuTier": {
+      "type": "string",
+      "defaultValue": "Basic"
+    },
+    "version": {
+      "type": "string",
+      "defaultValue": "9.5"
+    },
+    "psqlDbName": {
+      "type": "string",
+      "defaultValue": "dayplanner"
+    }
+
+
+  },
+  "variables": {},
+  "resources": [
+    {
+      "type": "Microsoft.DBforPostgreSQL/servers",
+      "sku": {
+        "name": "[parameters('skuName')]",
+        "tier": "[parameters('skuTier')]",
+        "capacity": "[parameters('skuCapacityDTU')]",
+        "size": "[parameters('skuSizeMB')]",
+        "family": "[parameters('skuFamily')]"
+      },
+      "kind": "",
+      "name": "[parameters('serverName')]",
+      "apiVersion": "2016-02-01-privatepreview",
+      "location": "[parameters('location')]",
+      "properties": {
+        "version": "[parameters('version')]",
+        "administratorLogin": "[parameters('administratorLogin')]",
+        "administratorLoginPassword": "[parameters('administratorLoginPassword')]",
+        "storageMB": "[parameters('skuSizeMB')]"
+      },
+      "resources": [
         {
-            "type": "Microsoft.DBforPostgreSQL/servers",
-            "sku": {
-                "name": "[parameters('skuName')]",
-                "tier": "[parameters('skuTier')]",
-                "capacity": "[parameters('skuCapacityDTU')]",
-                "size": "[parameters('skuSizeMB')]",
-                "family": "[parameters('skuFamily')]"
-            },
-            "kind": "",
-            "name": "[parameters('serverName')]",
-            "apiVersion": "2016-02-01-privatepreview",
-            "location": "[parameters('location')]",
-            "properties": {
-                "version": "[parameters('version')]",
-                "administratorLogin": "[parameters('administratorLogin')]",
-                "administratorLoginPassword": "[parameters('administratorLoginPassword')]",
-                "storageMB": "[parameters('skuSizeMB')]"
-            },
-            "resources": [
-                {
-                    "apiVersion": "2017-04-30-preview",
-                    "name": "[parameters('psqlDbName')]",
-                    "type": "databases",
-                    "location": "[parameters('location')]",
-                    "tags": {
-                        "displayName": "PSQLDatabase"
-                    },
-                    "dependsOn": [
-                        "[resourceId('Microsoft.DBforPostgreSQL/servers', parameters('serverName'))]"
-                    ],
-                    "properties": {
-                    }
-                },
-                {
-                    "apiVersion": "2017-04-30-preview",
-                    "name": "PSQLServerFirewallRule",
-                    "type": "firewallrules",
-                    "location": "[parameters('location')]",
-                    "dependsOn": [
-                        "[resourceId('Microsoft.DBforPostgreSQL/servers', parameters('serverName'))]"
-                    ],
-                    "properties": {
-                        "endIpAddress": "255.255.255.255",
-                        "startIpAddress": "0.0.0.0"
-                    }
-                }
-            ]
+          "apiVersion": "2017-04-30-preview",
+          "name": "[parameters('psqlDbName')]",
+          "type": "databases",
+          "location": "[parameters('location')]",
+          "tags": {
+            "displayName": "PSQLDatabase"
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.DBforPostgreSQL/servers', parameters('serverName'))]"
+          ],
+          "properties": {
+          }
+        },
+        {
+          "apiVersion": "2017-04-30-preview",
+          "name": "PSQLServerFirewallRule",
+          "type": "firewallrules",
+          "location": "[parameters('location')]",
+          "dependsOn": [
+            "[resourceId('Microsoft.DBforPostgreSQL/servers', parameters('serverName'))]"
+          ],
+          "properties": {
+            "endIpAddress": "255.255.255.255",
+            "startIpAddress": "0.0.0.0"
+          }
         }
-    ]
+      ]
+    }
+  ]
 }
